@@ -1,0 +1,1052 @@
+[
+ {
+  "cat": "01_arrays_hashing",
+  "slug": "contains_duplicate",
+  "title": "Contains Duplicate",
+  "diff": "Easy",
+  "hint": "A set gives O(1) membership checks. Target: O(n) time, O(n) space."
+ },
+ {
+  "cat": "01_arrays_hashing",
+  "slug": "two_sum",
+  "title": "Two Sum",
+  "diff": "Easy",
+  "hint": "Store each value's index in a dict and look for target - n before adding n. O(n) time."
+ },
+ {
+  "cat": "01_arrays_hashing",
+  "slug": "valid_anagram",
+  "title": "Valid Anagram",
+  "diff": "Easy",
+  "hint": "Compare letter counts with a dict or Counter. O(n) time."
+ },
+ {
+  "cat": "01_arrays_hashing",
+  "slug": "group_anagrams",
+  "title": "Group Anagrams",
+  "diff": "Medium",
+  "hint": "Anagrams share a key: the sorted string, or a tuple of 26 letter counts. The tuple avoids the sort, giving O(n*k)."
+ },
+ {
+  "cat": "01_arrays_hashing",
+  "slug": "top_k_frequent_elements",
+  "title": "Top K Frequent Elements",
+  "diff": "Medium",
+  "hint": "Bucket values by their count, then read buckets from highest to lowest for O(n)."
+ },
+ {
+  "cat": "01_arrays_hashing",
+  "slug": "encode_and_decode_strings",
+  "title": "Encode and Decode Strings",
+  "diff": "Medium",
+  "hint": "Prefix each string with its length and a marker, such as 5#hello."
+ },
+ {
+  "cat": "01_arrays_hashing",
+  "slug": "product_of_array_except_self",
+  "title": "Product of Array Except Self",
+  "diff": "Medium",
+  "hint": "Multiply a running product from the left into each slot, then one from the right."
+ },
+ {
+  "cat": "01_arrays_hashing",
+  "slug": "valid_sudoku",
+  "title": "Valid Sudoku",
+  "diff": "Medium",
+  "hint": "Keep a set for each row, column and box. The box index is (r // 3, c // 3)."
+ },
+ {
+  "cat": "01_arrays_hashing",
+  "slug": "longest_consecutive_sequence",
+  "title": "Longest Consecutive Sequence",
+  "diff": "Medium",
+  "hint": "Put values in a set. Only start counting from n when n - 1 isn't in the set."
+ },
+ {
+  "cat": "02_two_pointers",
+  "slug": "valid_palindrome",
+  "title": "Valid Palindrome",
+  "diff": "Easy",
+  "hint": "Move two pointers inward, skipping non-alphanumerics. O(1) extra space is possible."
+ },
+ {
+  "cat": "02_two_pointers",
+  "slug": "two_sum_ii",
+  "title": "Two Sum II - Input Array Is Sorted",
+  "diff": "Medium",
+  "hint": "Sum too small: move left up. Too big: move right down."
+ },
+ {
+  "cat": "02_two_pointers",
+  "slug": "container_with_most_water",
+  "title": "Container With Most Water",
+  "diff": "Medium",
+  "hint": "Start at both ends and always move the shorter bar. Moving the taller one can never help."
+ },
+ {
+  "cat": "02_two_pointers",
+  "slug": "three_sum",
+  "title": "3Sum",
+  "diff": "Medium",
+  "hint": "Sort, fix the first value, and run two pointers on the rest. Skip repeated values."
+ },
+ {
+  "cat": "02_two_pointers",
+  "slug": "trapping_rain_water",
+  "title": "Trapping Rain Water",
+  "diff": "Hard",
+  "hint": "Water above a bar is min(tallest on left, tallest on right) - its height. Two pointers do it in O(1) space."
+ },
+ {
+  "cat": "03_sliding_window",
+  "slug": "best_time_to_buy_and_sell_stock",
+  "title": "Best Time to Buy And Sell Stock",
+  "diff": "Easy",
+  "hint": "Track the lowest price so far and the best profit if you sold today. One pass."
+ },
+ {
+  "cat": "03_sliding_window",
+  "slug": "longest_substring_without_repeating",
+  "title": "Longest Substring Without Repeating Characters",
+  "diff": "Medium",
+  "hint": "Sliding window. Remember each character's last index and jump the left edge past a repeat, but never backwards."
+ },
+ {
+  "cat": "03_sliding_window",
+  "slug": "permutation_in_string",
+  "title": "Permutation In String",
+  "diff": "Medium",
+  "hint": "Fixed-size window the length of s1. Compare letter counts as it slides, 26 entries at most."
+ },
+ {
+  "cat": "03_sliding_window",
+  "slug": "longest_repeating_character_replacement",
+  "title": "Longest Repeating Character Replacement",
+  "diff": "Medium",
+  "hint": "A window is valid when its length minus the count of its most common letter is at most k."
+ },
+ {
+  "cat": "03_sliding_window",
+  "slug": "minimum_window_substring",
+  "title": "Minimum Window Substring",
+  "diff": "Hard",
+  "hint": "Grow the right edge until every requirement is met, then shrink the left edge as far as possible."
+ },
+ {
+  "cat": "03_sliding_window",
+  "slug": "sliding_window_maximum",
+  "title": "Sliding Window Maximum",
+  "diff": "Hard",
+  "hint": "Keep a deque of indices with decreasing values. The front is the current maximum."
+ },
+ {
+  "cat": "04_binary_search",
+  "slug": "binary_search",
+  "title": "Binary Search",
+  "diff": "Easy",
+  "hint": "Use while l <= r, and move to m + 1 or m - 1 so the range always shrinks."
+ },
+ {
+  "cat": "04_binary_search",
+  "slug": "koko_eating_bananas",
+  "title": "Koko Eating Bananas",
+  "diff": "Medium",
+  "hint": "Binary search on the answer k between 1 and max(piles). Hours needed = sum of ceil(pile / k)."
+ },
+ {
+  "cat": "04_binary_search",
+  "slug": "search_in_rotated_sorted_array",
+  "title": "Search In Rotated Sorted Array",
+  "diff": "Medium",
+  "hint": "At least one side of mid is always sorted. Check whether target falls inside that side."
+ },
+ {
+  "cat": "04_binary_search",
+  "slug": "search_a_2d_matrix",
+  "title": "Search a 2D Matrix",
+  "diff": "Medium",
+  "hint": "Treat it as one sorted array: index i maps to matrix[i // cols][i % cols]."
+ },
+ {
+  "cat": "04_binary_search",
+  "slug": "find_minimum_in_rotated_sorted_array",
+  "title": "Find Minimum In Rotated Sorted Array",
+  "diff": "Medium",
+  "hint": "Compare the middle with the right end. That tells you which half holds the minimum."
+ },
+ {
+  "cat": "04_binary_search",
+  "slug": "time_based_key_value_store",
+  "title": "Time Based Key Value Store",
+  "diff": "Medium",
+  "hint": "Store a list of (time, value) per key, and use binary search in get."
+ },
+ {
+  "cat": "04_binary_search",
+  "slug": "median_of_two_sorted_arrays",
+  "title": "Median of Two Sorted Arrays",
+  "diff": "Hard",
+  "hint": "Binary search the partition of the shorter array so everything on the left is <= everything on the right."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "reverse_linked_list",
+  "title": "Reverse Linked List",
+  "diff": "Easy",
+  "hint": "Keep prev and cur. Save cur.next before you overwrite it. O(1) extra space."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "merge_two_sorted_lists",
+  "title": "Merge Two Sorted Lists",
+  "diff": "Easy",
+  "hint": "A dummy head removes the special case for the first node. Attach whatever is left at the end."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "linked_list_cycle",
+  "title": "Linked List Cycle",
+  "diff": "Easy",
+  "hint": "Floyd's slow and fast pointers: if there's a loop, fast eventually laps slow."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "reorder_list",
+  "title": "Reorder List",
+  "diff": "Medium",
+  "hint": "Find the middle, reverse the second half, then weave the two halves together."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "remove_nth_node_from_end_of_list",
+  "title": "Remove Nth Node From End of List",
+  "diff": "Medium",
+  "hint": "A dummy node plus two pointers n apart finds the node before the one to remove."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "copy_list_with_random_pointer",
+  "title": "Copy List With Random Pointer",
+  "diff": "Medium",
+  "hint": "Map each original node to its copy, then fill in the pointers in a second pass."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "add_two_numbers",
+  "title": "Add Two Numbers",
+  "diff": "Medium",
+  "hint": "Walk both lists with a carry, and keep going while anything is left."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "find_the_duplicate_number",
+  "title": "Find The Duplicate Number",
+  "diff": "Medium",
+  "hint": "Treat each value as a next pointer. It forms a linked list with a cycle, so use Floyd's algorithm."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "lru_cache",
+  "title": "LRU Cache",
+  "diff": "Medium",
+  "hint": "A dict plus a doubly linked list works. In Python, collections.OrderedDict also does the job."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "merge_k_sorted_lists",
+  "title": "Merge K Sorted Lists",
+  "diff": "Hard",
+  "hint": "A min-heap of the current front nodes gives O(n log k). Add a tie-breaker, since nodes can't be compared."
+ },
+ {
+  "cat": "05_linked_list",
+  "slug": "reverse_nodes_in_k_group",
+  "title": "Reverse Nodes In K Group",
+  "diff": "Hard",
+  "hint": "Check that k nodes exist, reverse them, reconnect, and move on. A dummy head helps."
+ },
+ {
+  "cat": "06_stack",
+  "slug": "valid_parentheses",
+  "title": "Valid Parentheses",
+  "diff": "Easy",
+  "hint": "Push openers and pop on each closer. The stack must end empty."
+ },
+ {
+  "cat": "06_stack",
+  "slug": "min_stack",
+  "title": "Min Stack",
+  "diff": "Medium",
+  "hint": "Store the minimum so far next to each value, either in tuples or a second stack."
+ },
+ {
+  "cat": "06_stack",
+  "slug": "daily_temperatures",
+  "title": "Daily Temperatures",
+  "diff": "Medium",
+  "hint": "Monotonic decreasing stack of indices. A warmer day resolves everything colder on the stack."
+ },
+ {
+  "cat": "06_stack",
+  "slug": "evaluate_reverse_polish_notation",
+  "title": "Evaluate Reverse Polish Notation",
+  "diff": "Medium",
+  "hint": "Push numbers on a stack. On an operator, pop two values. The second one popped is the left operand. int(a / b) truncates toward zero."
+ },
+ {
+  "cat": "06_stack",
+  "slug": "car_fleet",
+  "title": "Car Fleet",
+  "diff": "Medium",
+  "hint": "Sort by position, closest to target first, and compare arrival times."
+ },
+ {
+  "cat": "06_stack",
+  "slug": "largest_rectangle_in_histogram",
+  "title": "Largest Rectangle In Histogram",
+  "diff": "Hard",
+  "hint": "Use a stack of increasing heights. When a bar is lower, pop and compute each popped bar's widest rectangle."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "invert_binary_tree",
+  "title": "Invert Binary Tree",
+  "diff": "Easy",
+  "hint": "Swap the children at each node, then recurse."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "maximum_depth_of_binary_tree",
+  "title": "Maximum Depth of Binary Tree",
+  "diff": "Easy",
+  "hint": "1 + the deeper of the two subtrees. An empty tree has depth 0."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "diameter_of_binary_tree",
+  "title": "Diameter of Binary Tree",
+  "diff": "Easy",
+  "hint": "At each node, the best path through it is left height + right height."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "balanced_binary_tree",
+  "title": "Balanced Binary Tree",
+  "diff": "Easy",
+  "hint": "Compute heights bottom-up and report failure as soon as one node is unbalanced."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "same_tree",
+  "title": "Same Tree",
+  "diff": "Easy",
+  "hint": "Recurse on both trees together. Two Nones match."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "subtree_of_another_tree",
+  "title": "Subtree of Another Tree",
+  "diff": "Easy",
+  "hint": "At each node of root, run a same-tree check against subRoot."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "binary_tree_level_order_traversal",
+  "title": "Binary Tree Level Order Traversal",
+  "diff": "Medium",
+  "hint": "BFS with a deque. len(q) at the start of each loop is the size of that level."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "lowest_common_ancestor_of_a_binary_search_tree",
+  "title": "Lowest Common Ancestor of a Binary Search Tree",
+  "diff": "Medium",
+  "hint": "Walk down from the root. If both values are smaller go left, if both are larger go right, otherwise you've found it."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "binary_tree_right_side_view",
+  "title": "Binary Tree Right Side View",
+  "diff": "Medium",
+  "hint": "BFS by level and keep the last value of each one."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "count_good_nodes_in_binary_tree",
+  "title": "Count Good Nodes In Binary Tree",
+  "diff": "Medium",
+  "hint": "DFS, passing down the largest value seen so far."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "validate_binary_search_tree",
+  "title": "Validate Binary Search Tree",
+  "diff": "Medium",
+  "hint": "Pass down an allowed (low, high) range. Comparing only with direct children isn't enough."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "kth_smallest_element_in_a_bst",
+  "title": "Kth Smallest Element In a BST",
+  "diff": "Medium",
+  "hint": "An in-order traversal visits values in sorted order. Stop at the kth."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "construct_binary_tree_from_preorder_and_inorder_traversal",
+  "title": "Construct Binary Tree From Preorder And Inorder Traversal",
+  "diff": "Medium",
+  "hint": "The first preorder value is the root. Its position in inorder splits left from right. A dict of positions makes it O(n)."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "binary_tree_maximum_path_sum",
+  "title": "Binary Tree Maximum Path Sum",
+  "diff": "Hard",
+  "hint": "Each node returns its best downward path, ignoring negative branches, and updates the answer with both branches."
+ },
+ {
+  "cat": "07_trees",
+  "slug": "serialize_and_deserialize_binary_tree",
+  "title": "Serialize And Deserialize Binary Tree",
+  "diff": "Hard",
+  "hint": "Write a preorder traversal with a marker for missing children, then read it back in the same order."
+ },
+ {
+  "cat": "08_tries",
+  "slug": "implement_trie",
+  "title": "Implement Trie (Prefix Tree)",
+  "diff": "Medium",
+  "hint": "Each node is a map from character to child, plus an end-of-word flag."
+ },
+ {
+  "cat": "08_tries",
+  "slug": "design_add_and_search_words",
+  "title": "Design Add And Search Words Data Structure",
+  "diff": "Medium",
+  "hint": "A trie plus DFS. On '.', try every child."
+ },
+ {
+  "cat": "08_tries",
+  "slug": "word_search_ii",
+  "title": "Word Search II",
+  "diff": "Hard",
+  "hint": "Build a trie of the words, then DFS from each cell while following the trie."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "subsets",
+  "title": "Subsets",
+  "diff": "Medium",
+  "hint": "At each index choose to include or skip. Remember to append a copy of cur, not cur itself."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "combination_sum",
+  "title": "Combination Sum",
+  "diff": "Medium",
+  "hint": "Recurse from index i, not i + 1, so a value can repeat. Never go back to earlier indices, which avoids duplicates."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "generate_parentheses",
+  "title": "Generate Parentheses",
+  "diff": "Medium",
+  "hint": "Add '(' while opened < n. Add ')' only while closed < opened."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "combination_sum_ii",
+  "title": "Combination Sum II",
+  "diff": "Medium",
+  "hint": "Sort first. At each depth, skip a value equal to the one just tried."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "permutations",
+  "title": "Permutations",
+  "diff": "Medium",
+  "hint": "Build the result by choosing any unused value at each position."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "subsets_ii",
+  "title": "Subsets II",
+  "diff": "Medium",
+  "hint": "Sort, then at each depth skip a value equal to the previous one tried."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "word_search",
+  "title": "Word Search",
+  "diff": "Medium",
+  "hint": "DFS from each cell. Mark a cell while it's on the path, then restore it on the way back."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "palindrome_partitioning",
+  "title": "Palindrome Partitioning",
+  "diff": "Medium",
+  "hint": "At each start, try every prefix that is a palindrome and recurse on the rest."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "letter_combinations_of_a_phone_number",
+  "title": "Letter Combinations of a Phone Number",
+  "diff": "Medium",
+  "hint": "Extend each partial string with each letter of the next digit."
+ },
+ {
+  "cat": "09_backtracking",
+  "slug": "n_queens",
+  "title": "N Queens",
+  "diff": "Hard",
+  "hint": "Place one queen per row. Track used columns and both diagonals (r + c and r - c) in sets."
+ },
+ {
+  "cat": "10_heap_priority_queue",
+  "slug": "kth_largest_element_in_a_stream",
+  "title": "Kth Largest Element In a Stream",
+  "diff": "Easy",
+  "hint": "Keep a min-heap of the k largest. Its smallest element is the answer."
+ },
+ {
+  "cat": "10_heap_priority_queue",
+  "slug": "last_stone_weight",
+  "title": "Last Stone Weight",
+  "diff": "Easy",
+  "hint": "heapq is a min-heap, so store negated values to get a max-heap."
+ },
+ {
+  "cat": "10_heap_priority_queue",
+  "slug": "k_closest_points_to_origin",
+  "title": "K Closest Points to Origin",
+  "diff": "Medium",
+  "hint": "Compare squared distances, no sqrt needed. A max-heap of size k gives O(n log k)."
+ },
+ {
+  "cat": "10_heap_priority_queue",
+  "slug": "kth_largest_element_in_an_array",
+  "title": "Kth Largest Element In An Array",
+  "diff": "Medium",
+  "hint": "A min-heap of size k gives O(n log k)."
+ },
+ {
+  "cat": "10_heap_priority_queue",
+  "slug": "task_scheduler",
+  "title": "Task Scheduler",
+  "diff": "Medium",
+  "hint": "The most frequent task sets the frame: (max_count - 1) * (n + 1) + how many tasks share that count. The answer is at least len(tasks)."
+ },
+ {
+  "cat": "10_heap_priority_queue",
+  "slug": "design_twitter",
+  "title": "Design Twitter",
+  "diff": "Medium",
+  "hint": "Give each tweet a rising time counter, and merge the latest tweets of each followed user with a heap."
+ },
+ {
+  "cat": "10_heap_priority_queue",
+  "slug": "find_median_from_data_stream",
+  "title": "Find Median From Data Stream",
+  "diff": "Hard",
+  "hint": "Use a max-heap for the lower half and a min-heap for the upper half, and keep them balanced."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "number_of_islands",
+  "title": "Number of Islands",
+  "diff": "Medium",
+  "hint": "Scan the grid. Each unvisited '1' is a new island, so flood-fill it with DFS or BFS."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "clone_graph",
+  "title": "Clone Graph",
+  "diff": "Medium",
+  "hint": "A dict from original to copy, filled in before you recurse, stops you looping around cycles."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "rotting_oranges",
+  "title": "Rotting Oranges",
+  "diff": "Medium",
+  "hint": "Multi-source BFS: start with every rotten orange in the queue, and count fresh ones as they turn."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "max_area_of_island",
+  "title": "Max Area of Island",
+  "diff": "Medium",
+  "hint": "Flood-fill each island and count the cells."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "walls_and_gates",
+  "title": "Walls And Gates",
+  "diff": "Medium",
+  "hint": "Run one BFS that starts from every gate at once."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "pacific_atlantic_water_flow",
+  "title": "Pacific Atlantic Water Flow",
+  "diff": "Medium",
+  "hint": "Search uphill from each ocean's edges, then intersect the two visited sets."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "surrounded_regions",
+  "title": "Surrounded Regions",
+  "diff": "Medium",
+  "hint": "Mark every \"O\" reachable from the edge as safe. Everything else gets captured."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "course_schedule",
+  "title": "Course Schedule",
+  "diff": "Medium",
+  "hint": "You can finish unless the prerequisite graph has a cycle. Use DFS with three states, or Kahn's algorithm."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "course_schedule_ii",
+  "title": "Course Schedule II",
+  "diff": "Medium",
+  "hint": "Topological sort: repeatedly take courses with no remaining prerequisites."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "graph_valid_tree",
+  "title": "Graph Valid Tree",
+  "diff": "Medium",
+  "hint": "A tree has exactly n - 1 edges. Then you only need to check that every node is connected."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "number_of_connected_components",
+  "title": "Number of Connected Components In An Undirected Graph",
+  "diff": "Medium",
+  "hint": "Union-find: start with n groups and subtract one for each merge."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "redundant_connection",
+  "title": "Redundant Connection",
+  "diff": "Medium",
+  "hint": "Union-find: the first edge joining two already connected nodes is the answer."
+ },
+ {
+  "cat": "11_graphs",
+  "slug": "word_ladder",
+  "title": "Word Ladder",
+  "diff": "Hard",
+  "hint": "BFS over words. Patterns like h*t let you find neighbors quickly."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "climbing_stairs",
+  "title": "Climbing Stairs",
+  "diff": "Easy",
+  "hint": "ways(n) = ways(n-1) + ways(n-2), and two variables are enough. The n = 40 test will time out without memoization."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "min_cost_climbing_stairs",
+  "title": "Min Cost Climbing Stairs",
+  "diff": "Easy",
+  "hint": "The cost to reach a stair is the cheaper of the two ways into it."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "house_robber",
+  "title": "House Robber",
+  "diff": "Medium",
+  "hint": "best(i) = max(best(i-1), best(i-2) + nums[i])."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "longest_palindromic_substring",
+  "title": "Longest Palindromic Substring",
+  "diff": "Medium",
+  "hint": "Expand around every center, both single characters and gaps between them. O(n^2) time, O(1) space."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "house_robber_ii",
+  "title": "House Robber II",
+  "diff": "Medium",
+  "hint": "Solve the line twice: once without the first house and once without the last."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "palindromic_substrings",
+  "title": "Palindromic Substrings",
+  "diff": "Medium",
+  "hint": "Expand around every center, both single characters and gaps."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "decode_ways",
+  "title": "Decode Ways",
+  "diff": "Medium",
+  "hint": "ways(i) = ways(i-1) if the digit is valid, plus ways(i-2) if the last two digits form 10 to 26."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "coin_change",
+  "title": "Coin Change",
+  "diff": "Medium",
+  "hint": "best[x] = 1 + the smallest best[x - coin] over all coins."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "maximum_product_subarray",
+  "title": "Maximum Product Subarray",
+  "diff": "Medium",
+  "hint": "Track both the largest and smallest product ending here, because a negative can flip them."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "word_break",
+  "title": "Word Break",
+  "diff": "Medium",
+  "hint": "ok[i] is True if some word ends at i and ok holds at its start."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "longest_increasing_subsequence",
+  "title": "Longest Increasing Subsequence",
+  "diff": "Medium",
+  "hint": "O(n^2) DP works. Keeping the smallest tail for each length with bisect gives O(n log n)."
+ },
+ {
+  "cat": "12_dynamic_programming_1d",
+  "slug": "partition_equal_subset_sum",
+  "title": "Partition Equal Subset Sum",
+  "diff": "Medium",
+  "hint": "Look for a subset that adds up to half the total. A set of reachable sums is enough."
+ },
+ {
+  "cat": "13_greedy",
+  "slug": "maximum_subarray",
+  "title": "Maximum Subarray",
+  "diff": "Medium",
+  "hint": "Kadane: drop the running sum as soon as starting fresh is better. Don't assume the answer is at least 0."
+ },
+ {
+  "cat": "13_greedy",
+  "slug": "jump_game",
+  "title": "Jump Game",
+  "diff": "Medium",
+  "hint": "Track the furthest reachable index. Fail if you ever stand beyond it."
+ },
+ {
+  "cat": "13_greedy",
+  "slug": "jump_game_ii",
+  "title": "Jump Game II",
+  "diff": "Medium",
+  "hint": "Think of BFS levels. When i reaches the end of the current jump's range, take a jump and extend to the furthest seen."
+ },
+ {
+  "cat": "13_greedy",
+  "slug": "gas_station",
+  "title": "Gas Station",
+  "diff": "Medium",
+  "hint": "If total gas is at least total cost, an answer exists. Restart after any point where the tank goes negative."
+ },
+ {
+  "cat": "13_greedy",
+  "slug": "hand_of_straights",
+  "title": "Hand of Straights",
+  "diff": "Medium",
+  "hint": "Always start a group from the smallest remaining card."
+ },
+ {
+  "cat": "13_greedy",
+  "slug": "merge_triplets_to_form_target_triplet",
+  "title": "Merge Triplets to Form Target Triplet",
+  "diff": "Medium",
+  "hint": "Ignore any triplet with a value above target. Then check whether the rest can reach every position."
+ },
+ {
+  "cat": "13_greedy",
+  "slug": "partition_labels",
+  "title": "Partition Labels",
+  "diff": "Medium",
+  "hint": "Note each letter's last position. Extend the piece to that point, and close it when you reach it."
+ },
+ {
+  "cat": "13_greedy",
+  "slug": "valid_parenthesis_string",
+  "title": "Valid Parenthesis String",
+  "diff": "Medium",
+  "hint": "Track the lowest and highest possible count of open brackets as you go."
+ },
+ {
+  "cat": "14_math_geometry",
+  "slug": "happy_number",
+  "title": "Happy Number",
+  "diff": "Easy",
+  "hint": "Track seen values in a set, or use slow and fast pointers."
+ },
+ {
+  "cat": "14_math_geometry",
+  "slug": "plus_one",
+  "title": "Plus One",
+  "diff": "Easy",
+  "hint": "Walk from the right. A 9 becomes 0 and the carry continues."
+ },
+ {
+  "cat": "14_math_geometry",
+  "slug": "multiply_strings",
+  "title": "Multiply Strings",
+  "diff": "Medium",
+  "hint": "Digits at positions i and j land in position i + j, counted from the right. Carry as you go and strip leading zeros."
+ },
+ {
+  "cat": "14_math_geometry",
+  "slug": "rotate_image",
+  "title": "Rotate Image",
+  "diff": "Medium",
+  "hint": "Reverse the rows, then swap across the main diagonal."
+ },
+ {
+  "cat": "14_math_geometry",
+  "slug": "spiral_matrix",
+  "title": "Spiral Matrix",
+  "diff": "Medium",
+  "hint": "Shrink top, bottom, left and right bounds as you finish each side."
+ },
+ {
+  "cat": "14_math_geometry",
+  "slug": "set_matrix_zeroes",
+  "title": "Set Matrix Zeroes",
+  "diff": "Medium",
+  "hint": "Note the rows and columns to clear first. For O(1) space, store those marks in the first row and column."
+ },
+ {
+  "cat": "14_math_geometry",
+  "slug": "pow_x_n",
+  "title": "Pow(x, n)",
+  "diff": "Medium",
+  "hint": "Square x and halve n. For a negative n, use 1 / x and -n."
+ },
+ {
+  "cat": "14_math_geometry",
+  "slug": "detect_squares",
+  "title": "Detect Squares",
+  "diff": "Medium",
+  "hint": "Treat each stored point on a shared diagonal as the opposite corner, and multiply the counts of the other two corners."
+ },
+ {
+  "cat": "15_advanced_graphs",
+  "slug": "min_cost_to_connect_all_points",
+  "title": "Min Cost to Connect All Points",
+  "diff": "Medium",
+  "hint": "This is a minimum spanning tree. Prim's algorithm with a heap works well."
+ },
+ {
+  "cat": "15_advanced_graphs",
+  "slug": "network_delay_time",
+  "title": "Network Delay Time",
+  "diff": "Medium",
+  "hint": "Dijkstra from k. The answer is the largest shortest distance."
+ },
+ {
+  "cat": "15_advanced_graphs",
+  "slug": "cheapest_flights_within_k_stops",
+  "title": "Cheapest Flights Within K Stops",
+  "diff": "Medium",
+  "hint": "Bellman-Ford: run k + 1 rounds, working from a copy of the previous round's prices."
+ },
+ {
+  "cat": "15_advanced_graphs",
+  "slug": "reconstruct_itinerary",
+  "title": "Reconstruct Itinerary",
+  "diff": "Hard",
+  "hint": "Hierholzer's algorithm: visit destinations in sorted order and add an airport after its edges are used up, then reverse."
+ },
+ {
+  "cat": "15_advanced_graphs",
+  "slug": "swim_in_rising_water",
+  "title": "Swim In Rising Water",
+  "diff": "Hard",
+  "hint": "Dijkstra where a path's cost is the highest cell on it."
+ },
+ {
+  "cat": "15_advanced_graphs",
+  "slug": "alien_dictionary",
+  "title": "Alien Dictionary",
+  "diff": "Hard",
+  "hint": "Compare neighboring words to get letter edges, then topologically sort. A longer word before its own prefix is invalid."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "unique_paths",
+  "title": "Unique Paths",
+  "diff": "Medium",
+  "hint": "Paths to a cell = paths from above + paths from the left. One row of DP is enough."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "longest_common_subsequence",
+  "title": "Longest Common Subsequence",
+  "diff": "Medium",
+  "hint": "If the characters match, add 1 to the diagonal. Otherwise take the better of dropping a character from either string."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "best_time_to_buy_and_sell_stock_with_cooldown",
+  "title": "Best Time to Buy And Sell Stock With Cooldown",
+  "diff": "Medium",
+  "hint": "Track three states per day: holding, just sold and resting."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "coin_change_ii",
+  "title": "Coin Change II",
+  "diff": "Medium",
+  "hint": "Loop over coins on the outside, so each combination is counted only once."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "target_sum",
+  "title": "Target Sum",
+  "diff": "Medium",
+  "hint": "Keep a dict from each reachable sum to how many ways reach it."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "interleaving_string",
+  "title": "Interleaving String",
+  "diff": "Medium",
+  "hint": "ok[i][j] asks whether the first i of s1 and first j of s2 can form the first i + j of s3."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "edit_distance",
+  "title": "Edit Distance",
+  "diff": "Medium",
+  "hint": "On a mismatch, take 1 + the smallest of insert, delete and replace. On a match, use the diagonal."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "longest_increasing_path_in_a_matrix",
+  "title": "Longest Increasing Path In a Matrix",
+  "diff": "Hard",
+  "hint": "DFS with memoization. Increasing paths can't form cycles."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "distinct_subsequences",
+  "title": "Distinct Subsequences",
+  "diff": "Hard",
+  "hint": "For each character of s, loop j backward and add ways[j - 1] to ways[j] on a match."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "burst_balloons",
+  "title": "Burst Balloons",
+  "diff": "Hard",
+  "hint": "Interval DP: choose which balloon in a range is burst last. Its neighbors are then the range's edges."
+ },
+ {
+  "cat": "16_dynamic_programming_2d",
+  "slug": "regular_expression_matching",
+  "title": "Regular Expression Matching",
+  "diff": "Hard",
+  "hint": "Recursion with memoization: handle whether the next pattern character is followed by *."
+ },
+ {
+  "cat": "17_intervals",
+  "slug": "meeting_rooms",
+  "title": "Meeting Rooms",
+  "diff": "Easy",
+  "hint": "Sort by start and compare each meeting with the next."
+ },
+ {
+  "cat": "17_intervals",
+  "slug": "insert_interval",
+  "title": "Insert Interval",
+  "diff": "Medium",
+  "hint": "Copy intervals that end before it, merge those that overlap, then copy the rest."
+ },
+ {
+  "cat": "17_intervals",
+  "slug": "merge_intervals",
+  "title": "Merge Intervals",
+  "diff": "Medium",
+  "hint": "Sort by start, then extend the last merged interval or start a new one."
+ },
+ {
+  "cat": "17_intervals",
+  "slug": "non_overlapping_intervals",
+  "title": "Non Overlapping Intervals",
+  "diff": "Medium",
+  "hint": "Sort by end time and keep whatever finishes earliest."
+ },
+ {
+  "cat": "17_intervals",
+  "slug": "meeting_rooms_ii",
+  "title": "Meeting Rooms II",
+  "diff": "Medium",
+  "hint": "Sort starts and ends separately and sweep through them, or use a heap of end times."
+ },
+ {
+  "cat": "17_intervals",
+  "slug": "minimum_interval_to_include_each_query",
+  "title": "Minimum Interval to Include Each Query",
+  "diff": "Hard",
+  "hint": "Process queries in sorted order with a min-heap of (size, right) for intervals that have started."
+ },
+ {
+  "cat": "18_bit_manipulation",
+  "slug": "single_number",
+  "title": "Single Number",
+  "diff": "Easy",
+  "hint": "XOR cancels pairs."
+ },
+ {
+  "cat": "18_bit_manipulation",
+  "slug": "number_of_1_bits",
+  "title": "Number of 1 Bits",
+  "diff": "Easy",
+  "hint": "n & (n - 1) clears the lowest set bit."
+ },
+ {
+  "cat": "18_bit_manipulation",
+  "slug": "counting_bits",
+  "title": "Counting Bits",
+  "diff": "Easy",
+  "hint": "bits[i] = bits[i >> 1] + (i & 1)."
+ },
+ {
+  "cat": "18_bit_manipulation",
+  "slug": "reverse_bits",
+  "title": "Reverse Bits",
+  "diff": "Easy",
+  "hint": "Loop 32 times, shifting the result left and taking the lowest bit of n."
+ },
+ {
+  "cat": "18_bit_manipulation",
+  "slug": "missing_number",
+  "title": "Missing Number",
+  "diff": "Easy",
+  "hint": "XOR all indices and values, or subtract the sum from the expected total."
+ },
+ {
+  "cat": "18_bit_manipulation",
+  "slug": "sum_of_two_integers",
+  "title": "Sum of Two Integers",
+  "diff": "Medium",
+  "hint": "XOR adds without carrying, and (a & b) << 1 is the carry. Mask to 32 bits and convert back at the end."
+ },
+ {
+  "cat": "18_bit_manipulation",
+  "slug": "reverse_integer",
+  "title": "Reverse Integer",
+  "diff": "Medium",
+  "hint": "Work on the absolute value and check the range at the end."
+ }
+]

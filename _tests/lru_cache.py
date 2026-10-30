@@ -1,0 +1,17 @@
+
+def check(mod, eq):
+    c = mod.LRUCache(2)
+    c.put(1,10)
+    eq(c.get(1), 10)
+    c.put(2,20)
+    c.put(3,30)
+    eq(c.get(2), 20)
+    eq(c.get(1), -1)
+    c = mod.LRUCache(2)
+    c.put(1,1); c.put(2,2)
+    eq(c.get(1), 1)
+    c.put(3,3)
+    eq(c.get(2), -1)
+    c.put(1,9)
+    eq(c.get(1), 9)
+    eq(c.get(3), 3)

@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NeetCode Practice</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%238b8cf8'/%3E%3Cpath d='M12 10l-6 6 6 6M20 10l6 6-6 6' fill='none' stroke='%2314142b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/codemirror.min.css">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #17181a; --panel: #212326; --panel-2: #2a2d31; --line: #383c42;
+  --text: #e6e7e9; --muted: #a1a6ad; --accent: #8b8cf8; --accent-ink: #14142b;
+  --easy: #4cc38a; --medium: #e5a13a; --hard: #f06a6a; --star: #f2c14e;
+  --err-bg: rgba(240,106,106,.16); --select: #3a3f5c;
+  --t-keyword: #b39df3; --t-def: #7fb7ff; --t-builtin: #6fd0d8; --t-string: #a5d786;
+  --t-number: #f0a868; --t-comment: #8b9199; --t-self: #e59ac0; --t-meta: #e5c07b; --gutter: #747a82;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --code-size: 14px; --left: 42%; --bottom: 40%;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #fbfbfc; --panel: #f2f3f5; --panel-2: #e6e8eb; --line: #d3d6db;
+  --text: #1c1e21; --muted: #5d636b; --accent: #4f50d8; --accent-ink: #ffffff;
+  --easy: #17794a; --medium: #96600c; --hard: #c02f2f; --star: #a87a00;
+  --err-bg: rgba(192,47,47,.12); --select: #cfd3f5;
+  --t-keyword: #6a3fc4; --t-def: #1259b8; --t-builtin: #0b7079; --t-string: #3b7a18;
+  --t-number: #a8560a; --t-comment: #6b7178; --t-self: #a82e6a; --t-meta: #80620b; --gutter: #80868e;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--text); font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+button, select, input, textarea { font: inherit; color: var(--text); }
+button { background: var(--panel-2); border: 1px solid var(--line); border-radius: 7px; padding: 5px 11px; cursor: pointer; white-space: nowrap; }
+button:hover:not(:disabled) { border-color: var(--muted); }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+button.quiet { background: transparent; border-color: transparent; color: var(--muted); }
+button.quiet:hover:not(:disabled) { color: var(--text); border-color: var(--line); }
+button:disabled { opacity: .55; cursor: default; }
+select, input[type=search] { background: var(--panel-2); border: 1px solid var(--line); border-radius: 7px; padding: 5px 9px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+a { color: inherit; }
+code { font: .92em var(--mono); background: var(--panel-2); padding: 1px 4px; border-radius: 4px; }
+.Easy { color: var(--easy); } .Medium { color: var(--medium); } .Hard { color: var(--hard); }
+[hidden] { display: none !important; }
+
+header { height: 52px; display: flex; align-items: center; gap: 8px; padding: 0 12px 0 16px; border-bottom: 1px solid var(--line); background: var(--panel); }
+.brand { font-weight: 700; text-decoration: none; white-space: nowrap; margin-right: 6px; }
+#picker { max-width: 300px; min-width: 0; }
+.spacer { flex: 1; min-width: 4px; }
+#saved { color: var(--muted); font-size: 13px; white-space: nowrap; }
+#timer { font-variant-numeric: tabular-nums; }
+#timer.on { color: var(--easy); }
+#banner { background: var(--hard); color: #fff; padding: 8px 16px; font-weight: 600; }
+:root[data-theme="light"] #banner { color: #fff; }
+
+#home { max-width: 880px; margin: 0 auto; padding: 28px 16px 60px; }
+.summary { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.summary h1 { margin: 0; font-size: 24px; flex: 1; min-width: 200px; }
+.bar { height: 8px; background: var(--panel-2); border-radius: 4px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--easy); transition: width .25s; }
+.stats { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin: 8px 0 18px; }
+.stats b { font-weight: 600; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.filters input[type=search] { flex: 1; min-width: 180px; }
+.filters label { display: flex; align-items: center; gap: 5px; font-size: 14px; color: var(--muted); cursor: pointer; }
+h2 { font-size: 16px; margin: 26px 0 8px; display: flex; justify-content: space-between; }
+h2 span { color: var(--muted); font-weight: 400; font-size: 14px; }
+.rows { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 10px; padding: 0 12px 0 6px; border-top: 1px solid var(--line); }
+.row:first-child { border-top: 0; }
+.row:hover { background: var(--panel-2); }
+.row a { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; padding: 11px 0; text-decoration: none; }
+.row .name { flex: 1; min-width: 0; }
+.row .diff { font-size: 13px; font-weight: 600; }
+.status { width: 70px; font-size: 12px; color: var(--muted); flex: none; }
+.status.solved { color: var(--easy); font-weight: 600; }
+.status.started { color: var(--medium); }
+.star { background: none; border: 0; padding: 4px 7px; font-size: 18px; line-height: 1; color: var(--muted); }
+.star[aria-pressed=true] { color: var(--star); }
+.none { color: var(--muted); padding: 30px 0; text-align: center; }
+
+#work { display: grid; grid-template-columns: var(--left) 6px minmax(0, 1fr); height: calc(100vh - 52px); }
+body.has-banner #work { height: calc(100vh - 52px - 39px); }
+.gutter-v { background: var(--line); cursor: col-resize; background-clip: content-box; padding: 0 2px; }
+.gutter-h { background: var(--line); cursor: row-resize; background-clip: content-box; padding: 2px 0; height: 6px; }
+.gutter-v:hover, .gutter-h:hover, .gutter-v:focus-visible, .gutter-h:focus-visible { background-color: var(--accent); padding: 0; outline: 0; }
+#left { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+.tabs { display: flex; gap: 2px; padding: 0 12px; border-bottom: 1px solid var(--line); background: var(--panel); flex: none; }
+.tabs button { background: none; border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 9px 10px; color: var(--muted); }
+.tabs button[aria-selected=true] { color: var(--text); border-bottom-color: var(--accent); font-weight: 600; }
+.pane { overflow: auto; padding: 20px 22px 28px; flex: 1; min-height: 0; }
+.title-row { display: flex; align-items: flex-start; gap: 6px; }
+.title-row h1 { margin: 0 0 2px; font-size: 22px; line-height: 1.3; flex: 1; }
+.meta { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+#pText p { margin: 0 0 12px; }
+#pText h3 { font-size: 14px; margin: 18px 0 6px; }
+#pText ul { margin: 0 0 12px; padding-left: 20px; }
+#pText li { margin-bottom: 4px; font-size: 14px; }
+pre.example { font: 13px/1.55 var(--mono); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 0 0 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ex-label { color: var(--muted); }
+.helpers { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 12px; }
+.note { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.sub { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+.mytest { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px; margin-bottom: 10px; }
+.mytest label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+.mytest textarea, .mytest input, #notes { width: 100%; font: 13px/1.45 var(--mono); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; margin-bottom: 8px; resize: vertical; }
+#notes { font: 14px/1.5 -apple-system, BlinkMacSystemFont, sans-serif; min-height: 240px; }
+
+#right { display: grid; grid-template-rows: minmax(0, 1fr) 6px var(--bottom); min-height: 0; min-width: 0; }
+#editorPane { display: flex; flex-direction: column; min-height: 0; }
+.toolbar { display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-bottom: 1px solid var(--line); background: var(--panel); flex: none; min-height: 42px; }
+.toolbar .title { flex: 1; font-weight: 600; min-width: 0; font-size: 14px; }
+#editorWrap { flex: 1; min-height: 0; overflow: hidden; }
+.CodeMirror { height: 100%; font: var(--code-size)/1.5 var(--mono); background: var(--bg); color: var(--text); }
+.CodeMirror-gutters { background: var(--bg); border-right: 1px solid var(--line); }
+.CodeMirror-linenumber { color: var(--gutter); }
+.CodeMirror-cursor { border-left: 2px solid var(--text); }
+.CodeMirror-selected, .CodeMirror-focused .CodeMirror-selected { background: var(--select); }
+.cm-s-default .cm-keyword { color: var(--t-keyword); } .cm-s-default .cm-def { color: var(--t-def); } .cm-s-default .cm-builtin { color: var(--t-builtin); }
+.cm-s-default .cm-string { color: var(--t-string); } .cm-s-default .cm-number { color: var(--t-number); } .cm-s-default .cm-comment { color: var(--t-comment); font-style: italic; }
+.cm-s-default .cm-variable-2 { color: var(--t-self); } .cm-s-default .cm-meta { color: var(--t-meta); }
+.cm-s-default .cm-operator, .cm-s-default .cm-property, .cm-s-default .cm-variable { color: var(--text); }
+.CodeMirror-matchingbracket { color: var(--text) !important; background: var(--select); }
+.err-line { background: var(--err-bg); }
+#results { background: var(--panel); display: flex; flex-direction: column; min-height: 0; }
+kbd { font: 11px var(--mono); opacity: .75; margin-left: 6px; }
+#output { overflow: auto; padding: 12px; flex: 1; min-height: 0; }
+.empty { color: var(--muted); margin: 0; }
+.verdict { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.verdict strong { font-size: 17px; flex: 1; min-width: 160px; }
+.verdict.pass strong { color: var(--easy); } .verdict.fail strong { color: var(--hard); }
+.verdict small { color: var(--muted); }
+.case { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; font: 13px/1.5 var(--mono); background: var(--bg); overflow-wrap: anywhere; }
+.case.bad { border-color: var(--hard); }
+.case b { font: 600 13px -apple-system, BlinkMacSystemFont, sans-serif; }
+.ok { color: var(--easy); } .no { color: var(--hard); }
+.lbl { color: var(--muted); }
+.call { white-space: pre-wrap; }
+details { margin-bottom: 8px; }
+summary { cursor: pointer; color: var(--muted); font-size: 14px; padding: 2px 0 6px; }
+.group { font-weight: 600; margin: 14px 0 8px; font-size: 14px; }
+pre.printed { font: 13px/1.5 var(--mono); margin: 4px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.errline { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; font: inherit; cursor: pointer; }
+#answer { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10; }
+#answer > div { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; width: min(760px, 100%); max-height: 90vh; overflow: auto; }
+#answer .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600; }
+#answerCode { font: 13px/1.5 var(--mono); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 0; overflow: auto; }
+@media (max-width: 800px) {
+  #work { display: block; height: auto; }
+  .gutter-v, .gutter-h { display: none; }
+  #left { border-bottom: 1px solid var(--line); }
+  .pane { max-height: 60vh; }
+  #right { display: block; }
+  #editorWrap { height: 55vh; flex: none; }
+  #output { max-height: 60vh; }
+  #picker { max-width: 130px; }
+  .brand { display: none; }
+  #saved { display: none; }
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#/">NeetCode Practice</a>
+  <button id="homeBtn" class="quiet" hidden>All problems</button>
+  <select id="picker" aria-label="Jump to a problem" hidden></select>
+  <button id="prev" aria-label="Previous problem" title="Previous problem" hidden>←</button>
+  <button id="next" aria-label="Next problem" title="Next problem" hidden>→</button>
+  <span class="spacer"></span>
+  <span id="saved" aria-live="polite"></span>
+  <button id="timer" class="quiet" title="Start or pause a timer for this problem" hidden>Timer</button>
+  <button id="theme" class="quiet" title="Switch between light and dark">Light</button>
+</header>
+<div id="banner" role="alert" hidden></div>
+
+<main id="home" hidden></main>
+
+<main id="work" hidden>
+  <section id="left">
+    <div class="tabs" role="tablist" aria-label="Problem panels">
+      <button role="tab" id="tab-desc" aria-controls="pane-desc" aria-selected="true">Description</button>
+      <button role="tab" id="tab-tests" aria-controls="pane-tests" aria-selected="false">My tests</button>
+      <button role="tab" id="tab-notes" aria-controls="pane-notes" aria-selected="false">Notes</button>
+    </div>
+    <div id="pane-desc" class="pane" role="tabpanel" aria-labelledby="tab-desc">
+      <div class="title-row">
+        <h1 id="pTitle"></h1>
+        <button id="pStar" class="star" aria-pressed="false" aria-label="Star this problem" title="Star this problem">★</button>
+      </div>
+      <div id="pMeta" class="meta"></div>
+      <div id="pText"></div>
+      <div class="helpers">
+        <button id="hintBtn">Show hint</button>
+        <button id="answerBtn">Show answer</button>
+      </div>
+      <div id="hint" class="note" hidden></div>
+    </div>
+    <div id="pane-tests" class="pane" role="tabpanel" aria-labelledby="tab-tests" hidden>
+      <p class="sub">These run with Run tests but don't change whether a problem counts as solved. Use <code>s</code> for your Solution. Earlier lines can set things up, and the last line is the value to check.</p>
+      <div id="myTests"></div>
+      <button id="addTest">Add a test</button>
+    </div>
+    <div id="pane-notes" class="pane" role="tabpanel" aria-labelledby="tab-notes" hidden>
+      <p class="sub">Your approach, what tripped you up, or anything to remember. Saved automatically.</p>
+      <textarea id="notes" aria-label="Notes for this problem"></textarea>
+    </div>
+  </section>
+  <div class="gutter-v" id="splitV" role="separator" aria-orientation="vertical" aria-label="Resize panels" tabindex="0"></div>
+  <section id="right">
+    <div id="editorPane">
+      <div class="toolbar">
+        <span class="title">Python</span>
+        <button class="quiet" id="fontDown" aria-label="Smaller code text" title="Smaller code text">A−</button>
+        <button class="quiet" id="fontUp" aria-label="Larger code text" title="Larger code text">A+</button>
+        <button class="quiet" id="resetBtn">Reset code</button>
+      </div>
+      <div id="editorWrap"></div>
+    </div>
+    <div class="gutter-h" id="splitH" role="separator" aria-orientation="horizontal" aria-label="Resize results" tabindex="0"></div>
+    <div id="results">
+      <div class="toolbar">
+        <span class="title">Test results</span>
+        <button id="run" class="primary" title="Cmd+Enter">Run tests<kbd>⌘↵</kbd></button>
+      </div>
+      <div id="output" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+
+<div id="answer" hidden role="dialog" aria-modal="true" aria-label="Reference answer">
+  <div>
+    <div class="top"><span>Reference answer</span><button id="closeAnswer">Close</button></div>
+    <pre id="answerCode"></pre>
+  </div>
+</div>
+
+<script src="vendor/codemirror.min.js"></script>
+<script src="vendor/python.min.js"></script>
+<script src="vendor/matchbrackets.min.js"></script>
+<script src="vendor/closebrackets.min.js"></script>
+<script src="vendor/comment.min.js"></script>
+<script>
+const SERVER_VERSION = 3;
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined) n.textContent = text;
+  return n;
+};
+const store = {
+  get(key, fallback) { try { const v = localStorage.getItem("nc." + key); return v === null ? fallback : v; } catch (e) { return fallback; } },
+  set(key, value) { try { localStorage.setItem("nc." + key, value); } catch (e) {} }
+};
+const banner = text => {
+  $("banner").textContent = text || "";
+  $("banner").hidden = !text;
+  document.body.classList.toggle("has-banner", !!text);
+};
+const SERVER_DOWN = "Can't reach the practice site. Double-click Start Practice.command again, then reload this page. Don't close this tab until then, because your latest typing may not be saved.";
+const api = async (path, body) => {
+  let res;
+  try {
+    res = await fetch("/api/" + path, body ? {
+      method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)
+    } : undefined);
+  } catch (e) {
+    banner(SERVER_DOWN);
+    throw e;
+  }
+  if (!res.ok) throw new Error("Request failed: " + res.status);
+  if ($("banner").textContent === SERVER_DOWN) banner("");
+  return res.json();
+};
+const CATS = {arrays_hashing: "Arrays & Hashing", two_pointers: "Two Pointers", sliding_window: "Sliding Window",
+  binary_search: "Binary Search", linked_list: "Linked List", stack: "Stack", trees: "Trees", tries: "Tries",
+  backtracking: "Backtracking", heap_priority_queue: "Heap / Priority Queue", graphs: "Graphs",
+  dynamic_programming_1d: "1-D Dynamic Programming", greedy: "Greedy", math_geometry: "Math & Geometry",
+  advanced_graphs: "Advanced Graphs", dynamic_programming_2d: "2-D Dynamic Programming", intervals: "Intervals",
+  bit_manipulation: "Bit Manipulation"};
+const catName = c => CATS[c.slice(3)] || c.slice(3);
+
+let list = [], current = null, routeToken = 0;
+let saveTimer = null, testsTimer = null, notesTimer = null, loading = false, errMark = null;
+let myTests = [];
+
+/* Theme and sizes */
+const prefersLight = () => window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches;
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  $("theme").textContent = theme === "dark" ? "Light" : "Dark";
+  $("theme").setAttribute("aria-label", `Switch to ${theme === "dark" ? "light" : "dark"} theme`);
+}
+applyTheme(store.get("theme", prefersLight() ? "light" : "dark"));
+$("theme").onclick = () => {
+  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  store.set("theme", next);
+  applyTheme(next);
+  cm.refresh();
+};
+const rootStyle = document.documentElement.style;
+rootStyle.setProperty("--left", store.get("left", "42") + "%");
+rootStyle.setProperty("--bottom", store.get("bottom", "40") + "%");
+let codeSize = Number(store.get("codeSize", "14")) || 14;
+rootStyle.setProperty("--code-size", codeSize + "px");
+function changeFont(delta) {
+  codeSize = Math.min(24, Math.max(11, codeSize + delta));
+  rootStyle.setProperty("--code-size", codeSize + "px");
+  store.set("codeSize", String(codeSize));
+  cm.refresh();
+}
+
+/* Editor */
+const cm = CodeMirror($("editorWrap"), {
+  mode: "python", lineNumbers: true, indentUnit: 4, tabSize: 4, indentWithTabs: false,
+  matchBrackets: true, autoCloseBrackets: {pairs: "()[]{}''\"\"", triples: "'\"", explode: "[]{}()"},
+  extraKeys: {
+    Tab: c => {
+      if (c.somethingSelected()) return c.indentSelection("add");
+      const need = 4 - (c.getCursor().ch % 4);
+      c.replaceSelection(" ".repeat(need), "end");
+    },
+    "Shift-Tab": c => c.indentSelection("subtract"),
+    Backspace: c => {
+      if (c.somethingSelected()) return CodeMirror.Pass;
+      const cur = c.getCursor();
+      const before = c.getLine(cur.line).slice(0, cur.ch);
+      if (!cur.ch || !/^ +$/.test(before)) return CodeMirror.Pass;
+      c.replaceRange("", {line: cur.line, ch: cur.ch - ((before.length - 1) % 4 + 1)}, cur);
+    },
+    "Cmd-Enter": () => runTests(), "Ctrl-Enter": () => runTests(),
+    "Cmd-S": () => { flush(); }, "Ctrl-S": () => { flush(); },
+    "Cmd-/": "toggleComment", "Ctrl-/": "toggleComment"
+  }
+});
+cm.on("change", () => {
+  if (loading || !current) return;
+  clearErr();
+  $("saved").textContent = "Saving…";
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(save, 500);
+});
+function clearErr() {
+  if (errMark !== null) { cm.removeLineClass(errMark, "background", "err-line"); errMark = null; }
+}
+async function save() {
+  clearTimeout(saveTimer);
+  saveTimer = null;
+  if (!current) return;
+  try {
+    await api("save", {slug: current.slug, code: cm.getValue()});
+    $("saved").textContent = "Saved";
+  } catch (e) {
+    $("saved").textContent = "Not saved";
+  }
+}
+async function flush() {
+  if (saveTimer) await save();
+  if (testsTimer) await saveMyTests();
+  if (notesTimer) await saveNotes();
+}
+
+/* Timer */
+let timerSeconds = 0, timerHandle = null;
+const fmtTime = s => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+function showTimer() {
+  $("timer").textContent = timerHandle || timerSeconds ? fmtTime(timerSeconds) : "Timer";
+  $("timer").classList.toggle("on", !!timerHandle);
+}
+function stopTimer() { clearInterval(timerHandle); timerHandle = null; }
+function resetTimer() { stopTimer(); timerSeconds = 0; showTimer(); }
+$("timer").onclick = () => {
+  if (timerHandle) stopTimer();
+  else timerHandle = setInterval(() => { timerSeconds++; showTimer(); }, 1000);
+  showTimer();
+};
+
+/* Resizable panels */
+function setupSplit(handle, onMove, onKey) {
+  handle.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    handle.setPointerCapture(e.pointerId);
+    const move = ev => { onMove(ev); cm.refresh(); };
+    const up = () => { handle.removeEventListener("pointermove", move); handle.removeEventListener("pointerup", up); };
+    handle.addEventListener("pointermove", move);
+    handle.addEventListener("pointerup", up);
+  });
+  handle.addEventListener("keydown", e => {
+    if (onKey(e.key)) { e.preventDefault(); cm.refresh(); }
+  });
+}
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+function setLeft(pct) {
+  const v = clamp(pct, 22, 70);
+  rootStyle.setProperty("--left", v + "%");
+  store.set("left", String(v));
+}
+function setBottom(pct) {
+  const v = clamp(pct, 15, 75);
+  rootStyle.setProperty("--bottom", v + "%");
+  store.set("bottom", String(v));
+}
+setupSplit($("splitV"),
+  e => { const r = $("work").getBoundingClientRect(); setLeft(100 * (e.clientX - r.left) / r.width); },
+  key => {
+    const now = parseFloat(rootStyle.getPropertyValue("--left"));
+    if (key === "ArrowLeft") { setLeft(now - 3); return true; }
+    if (key === "ArrowRight") { setLeft(now + 3); return true; }
+    return false;
+  });
+setupSplit($("splitH"),
+  e => { const r = $("right").getBoundingClientRect(); setBottom(100 * (r.bottom - e.clientY) / r.height); },
+  key => {
+    const now = parseFloat(rootStyle.getPropertyValue("--bottom"));
+    if (key === "ArrowUp") { setBottom(now + 3); return true; }
+    if (key === "ArrowDown") { setBottom(now - 3); return true; }
+    return false;
+  });
+
+/* Tabs */
+const TABS = ["desc", "tests", "notes"];
+function showTab(name) {
+  for (const t of TABS) {
+    $("tab-" + t).setAttribute("aria-selected", String(t === name));
+    $("pane-" + t).hidden = t !== name;
+  }
+}
+TABS.forEach(t => { $("tab-" + t).onclick = () => showTab(t); });
+function updateTabLabels() {
+  $("tab-tests").textContent = myTests.length ? `My tests (${myTests.length})` : "My tests";
+  $("tab-notes").textContent = $("notes").value.trim() ? "Notes •" : "Notes";
+}
+
+/* Home */
+const filters = {
+  text: "", diff: store.get("fDiff", ""), status: store.get("fStatus", ""), star: store.get("fStar", "") === "1"
+};
+function setStarState(btn, on, label) {
+  btn.setAttribute("aria-pressed", String(!!on));
+  btn.setAttribute("aria-label", (on ? "Remove star from " : "Star ") + label);
+  btn.title = on ? "Starred" : "Star this problem";
+}
+async function toggleStar(p, btn) {
+  p.star = !p.star;
+  setStarState(btn, p.star, p.title);
+  const entry = list.find(x => x.slug === p.slug);
+  if (entry) entry.star = p.star;
+  await api("progress", {slug: p.slug, star: p.star});
+}
+function drawList() {
+  const box = $("homeList");
+  const q = filters.text.trim().toLowerCase();
+  const shown = list.filter(p =>
+    (!q || p.title.toLowerCase().includes(q)) &&
+    (!filters.diff || p.diff === filters.diff) &&
+    (!filters.status || p.status === filters.status) &&
+    (!filters.star || p.star));
+  const nodes = [];
+  for (const cat of [...new Set(shown.map(p => p.cat))]) {
+    const group = shown.filter(p => p.cat === cat);
+    const all = list.filter(p => p.cat === cat);
+    const h = el("h2", "", catName(cat));
+    h.append(el("span", "", `${all.filter(p => p.status === "solved").length} / ${all.length}`));
+    const rows = el("div", "rows");
+    for (const p of group) {
+      const row = el("div", "row");
+      const star = el("button", "star", "★");
+      setStarState(star, p.star, p.title);
+      star.onclick = () => toggleStar(p, star).then(() => { if (filters.star) drawList(); });
+      const a = el("a");
+      a.href = "#/" + p.slug;
+      const label = {solved: "✓ Solved", started: "Started", todo: ""}[p.status];
+      a.append(el("span", "status " + p.status, label), el("span", "name", p.title), el("span", "diff " + p.diff, p.diff));
+      row.append(star, a);
+      rows.append(row);
+    }
+    nodes.push(h, rows);
+  }
+  if (!nodes.length) nodes.push(el("p", "none", "No problems match these filters."));
+  box.replaceChildren(...nodes);
+}
+async function renderHome(token) {
+  document.title = "NeetCode Practice";
+  $("work").hidden = true;
+  for (const id of ["prev", "next", "picker", "homeBtn", "timer"]) $(id).hidden = true;
+  $("saved").textContent = "";
+  resetTimer();
+  const home = $("home");
+  home.hidden = false;
+  if (!list.length) home.replaceChildren(el("p", "none", "Loading…"));
+  list = await api("problems");
+  if (token !== routeToken) return;
+  const solved = list.filter(p => p.status === "solved").length;
+  const top = el("div", "summary");
+  top.append(el("h1", "", `${solved} of ${list.length} solved`));
+  const last = list.find(p => p.slug === store.get("last", "")) ;
+  if (last && last.status !== "solved") {
+    const cont = el("button", "primary", "Continue: " + last.title);
+    cont.onclick = () => { location.hash = "#/" + last.slug; };
+    top.append(cont);
+  } else {
+    const nextUp = list.find(p => p.status !== "solved");
+    if (nextUp) {
+      const go = el("button", "primary", "Next: " + nextUp.title);
+      go.onclick = () => { location.hash = "#/" + nextUp.slug; };
+      top.append(go);
+    }
+  }
+  const startOver = el("button", "", "Start over");
+  startOver.onclick = async () => {
+    if (!confirm("Blank every problem and go back to 0 solved?\n\nYour code is copied to the backups folder first. Your own tests, stars and notes stay.")) return;
+    const r = await api("reset-all", {});
+    await renderHome(routeToken);
+    if (r.backedUp) alert(`Your code from ${r.backedUp} problem(s) is saved in the backups folder.`);
+  };
+  top.append(startOver);
+  const bar = el("div", "bar"), fill = el("i");
+  fill.style.width = (100 * solved / list.length) + "%";
+  bar.append(fill);
+  const stats = el("div", "stats");
+  const diffs = ["Easy", "Medium", "Hard"].filter(d => list.some(p => p.diff === d));
+  if (!diffs.includes(filters.diff)) filters.diff = "";
+  for (const d of diffs) {
+    const group = list.filter(p => p.diff === d);
+    const s = el("span");
+    s.append(el("b", d, d), ` ${group.filter(p => p.status === "solved").length} / ${group.length}`);
+    stats.append(s);
+  }
+  const bar2 = el("div", "filters");
+  const search = el("input");
+  search.type = "search"; search.placeholder = "Search problems"; search.setAttribute("aria-label", "Search problems");
+  search.value = filters.text;
+  search.oninput = () => { filters.text = search.value; drawList(); };
+  const makeSelect = (label, key, storeKey, options) => {
+    const sel = el("select");
+    sel.setAttribute("aria-label", label);
+    for (const [value, text] of options) {
+      const o = el("option", "", text);
+      o.value = value;
+      sel.append(o);
+    }
+    sel.value = filters[key];
+    sel.onchange = () => { filters[key] = sel.value; store.set(storeKey, sel.value); drawList(); };
+    return sel;
+  };
+  const starLabel = el("label");
+  const starBox = el("input");
+  starBox.type = "checkbox"; starBox.checked = filters.star;
+  starBox.onchange = () => { filters.star = starBox.checked; store.set("fStar", filters.star ? "1" : ""); drawList(); };
+  starLabel.append(starBox, "Starred only");
+  bar2.append(search,
+    makeSelect("Filter by difficulty", "diff", "fDiff", [["", "All difficulties"], ...diffs.map(d => [d, d])]),
+    makeSelect("Filter by status", "status", "fStatus", [["", "All statuses"], ["todo", "Not started"], ["started", "Started"], ["solved", "Solved"]]),
+    starLabel);
+  const listBox = el("div");
+  listBox.id = "homeList";
+  home.replaceChildren(top, bar, stats, bar2, listBox);
+  drawList();
+}
+
+/* Problem page */
+function renderText(text) {
+  const box = $("pText");
+  box.replaceChildren();
+  for (const block of text.trim().split(/\n\s*\n/)) {
+    const lines = block.split("\n");
+    if (/^Example \d+:$/.test(lines[0])) {
+      box.append(el("h3", "", lines[0].slice(0, -1)));
+      const pre = el("pre", "example");
+      lines.slice(1).forEach((line, i) => {
+        const m = line.match(/^(Input|Output|Explanation): (.*)$/);
+        if (i) pre.append("\n");
+        if (m) pre.append(el("span", "ex-label", m[1] + ": "), m[2]);
+        else pre.append(line);
+      });
+      box.append(pre);
+    } else if (lines[0] === "Constraints:") {
+      box.append(el("h3", "", "Constraints"));
+      const ul = el("ul");
+      lines.slice(1).forEach(l => ul.append(el("li", "", l.replace(/^- /, ""))));
+      box.append(ul);
+    } else if (lines.every(l => l.startsWith("- "))) {
+      const ul = el("ul");
+      lines.forEach(l => ul.append(el("li", "", l.slice(2))));
+      box.append(ul);
+    } else {
+      box.append(el("p", "", block.replace(/\n/g, " ")));
+    }
+  }
+}
+function renderMyTests() {
+  const box = $("myTests");
+  box.replaceChildren();
+  if (!myTests.length) box.append(el("p", "sub", "No tests yet. Add one to try your own inputs and edge cases."));
+  myTests.forEach((t, i) => {
+    const card = el("div", "mytest");
+    const codeLabel = el("label", "", `Test ${i + 1}: code`);
+    const code = el("textarea");
+    code.id = "mt-code-" + i; codeLabel.htmlFor = code.id;
+    code.spellcheck = false; code.value = t.code; code.rows = Math.max(2, t.code.split("\n").length);
+    code.oninput = () => { t.code = code.value; queueTestsSave(); };
+    const wantLabel = el("label", "", "Expected");
+    const want = el("input");
+    want.id = "mt-want-" + i; wantLabel.htmlFor = want.id;
+    want.spellcheck = false; want.value = t.expected;
+    want.oninput = () => { t.expected = want.value; queueTestsSave(); };
+    const del = el("button", "", "Delete");
+    del.setAttribute("aria-label", `Delete test ${i + 1}`);
+    del.onclick = () => { myTests.splice(i, 1); renderMyTests(); saveMyTests(); };
+    card.append(codeLabel, code, wantLabel, want, del);
+    box.append(card);
+  });
+  updateTabLabels();
+}
+function queueTestsSave() {
+  clearTimeout(testsTimer);
+  testsTimer = setTimeout(saveMyTests, 500);
+}
+async function saveMyTests() {
+  clearTimeout(testsTimer);
+  testsTimer = null;
+  if (current) await api("my-tests", {slug: current.slug, tests: myTests});
+}
+async function saveNotes() {
+  clearTimeout(notesTimer);
+  notesTimer = null;
+  if (current) await api("progress", {slug: current.slug, notes: $("notes").value});
+}
+$("notes").oninput = () => {
+  updateTabLabels();
+  clearTimeout(notesTimer);
+  notesTimer = setTimeout(saveNotes, 500);
+};
+function drawPicker(slug) {
+  const pick = $("picker");
+  pick.replaceChildren();
+  for (const cat of [...new Set(list.map(p => p.cat))]) {
+    const group = document.createElement("optgroup");
+    group.label = catName(cat);
+    for (const p of list.filter(x => x.cat === cat)) {
+      const o = el("option", "", (p.status === "solved" ? "✓ " : "") + p.title);
+      o.value = p.slug;
+      group.append(o);
+    }
+    pick.append(group);
+  }
+  pick.value = slug;
+}
+$("picker").onchange = () => { location.hash = "#/" + $("picker").value; };
+$("homeBtn").onclick = () => { location.hash = "#/"; };
+const emptyOutput = () => $("output").replaceChildren(el("p", "empty", "Press Run tests to check your code."));
+
+async function renderProblem(slug, token) {
+  if (!list.length) list = await api("problems");
+  const p = await api("problem/" + slug);
+  if (token !== routeToken) return;
+  current = p;
+  store.set("last", slug);
+  document.title = p.title + " · NeetCode Practice";
+  $("home").hidden = true; $("work").hidden = false;
+  for (const id of ["prev", "next", "picker", "homeBtn", "timer"]) $(id).hidden = false;
+  resetTimer();
+  $("saved").textContent = "";
+  $("pTitle").textContent = p.title;
+  $("pMeta").textContent = `${p.diff} · ${catName(p.cat)}`;
+  $("pMeta").className = "meta " + p.diff;
+  setStarState($("pStar"), p.star, p.title);
+  renderText(p.text);
+  myTests = p.myTests;
+  $("notes").value = p.notes;
+  renderMyTests();
+  showTab("desc");
+  $("pane-desc").scrollTop = 0;
+  $("hint").hidden = true;
+  $("hint").textContent = p.hint;
+  $("hintBtn").textContent = "Show hint";
+  emptyOutput();
+  loading = true;
+  errMark = null;
+  cm.setValue(p.code);
+  cm.clearHistory();
+  loading = false;
+  drawPicker(slug);
+  const i = list.findIndex(x => x.slug === slug);
+  const nav = (btn, target) => {
+    btn.disabled = !target;
+    btn.onclick = () => { if (target) location.hash = "#/" + target.slug; };
+  };
+  nav($("prev"), list[i - 1]);
+  nav($("next"), list[i + 1]);
+  cm.refresh();
+  cm.focus();
+}
+$("pStar").onclick = () => toggleStar(current, $("pStar"));
+
+async function runTests() {
+  if (!current || $("run").disabled) return;
+  const slug = current.slug;
+  clearTimeout(saveTimer); saveTimer = null;
+  clearTimeout(testsTimer); testsTimer = null;
+  clearErr();
+  $("run").disabled = true;
+  $("output").replaceChildren(el("p", "empty", "Running…"));
+  try {
+    const r = await api("run", {slug, code: cm.getValue(), myTests});
+    $("saved").textContent = "Saved";
+    if (current && current.slug === slug) showResults(r);
+  } catch (e) {
+    $("output").replaceChildren(el("p", "empty", "Couldn't run the tests. Check the message at the top of the page."));
+  }
+  $("run").disabled = false;
+}
+function resultLine(label, value) {
+  const d = el("div");
+  d.append(el("span", "lbl", label + ": "), value);
+  return d;
+}
+function caseCard(ok, title, call, t) {
+  const c = el("div", "case" + (ok ? "" : " bad"));
+  const head = el("div");
+  head.append(el("b", ok ? "ok" : "no", `${ok ? "✓" : "✗"} ${title}`));
+  c.append(head, el("div", "lbl call", call));
+  if (t.error) c.append(el("div", "no", t.error));
+  else if (!ok) c.append(resultLine("Your result", t.got), resultLine("Expected", t.want));
+  return c;
+}
+function appendCases(nodes, cards) {
+  const failed = cards.filter(x => !x.ok), passed = cards.filter(x => x.ok);
+  failed.forEach(x => nodes.push(x.node));
+  if (passed.length) {
+    const d = el("details");
+    d.append(el("summary", "", `${passed.length} passed`));
+    passed.forEach(x => d.append(x.node));
+    if (!failed.length && cards.length <= 2) d.open = true;
+    nodes.push(d);
+  }
+}
+function showResults(r) {
+  const out = $("output");
+  const nodes = [];
+  const passed = r.cases.filter(c => c.ok).length;
+  const total = r.cases.length;
+  const allOk = !r.error && total > 0 && passed === total;
+  const entry = list.find(p => p.slug === current.slug);
+  if (entry) {
+    entry.status = allOk ? "solved" : "started";
+    drawPicker(current.slug);
+  }
+  const verdict = el("div", "verdict " + (allOk ? "pass" : "fail"));
+  verdict.append(el("strong", "", allOk ? `Solved: all ${total} tests passed`
+    : r.error ? "Your code hit an error" : `${passed} of ${total} tests passed`));
+  if (r.ms !== undefined) verdict.append(el("small", "", `${r.ms} ms`));
+  if (allOk) {
+    stopTimer(); showTimer();
+    const i = list.findIndex(p => p.slug === current.slug);
+    const after = list.slice(i + 1).concat(list.slice(0, i)).find(p => p.status !== "solved");
+    if (after) {
+      const go = el("button", "primary", "Next unsolved");
+      go.title = after.title;
+      go.onclick = () => { location.hash = "#/" + after.slug; };
+      verdict.append(go);
+    }
+  }
+  nodes.push(verdict);
+  if (r.error) {
+    const c = el("div", "case bad");
+    c.append(el("div", "no", r.error.message));
+    if (r.error.lineno > 0) {
+      const line = r.error.lineno - 1;
+      const jump = el("button", "errline", `Go to line ${r.error.lineno}`);
+      jump.onclick = () => { cm.setCursor({line, ch: 0}); cm.focus(); };
+      c.append(jump);
+      errMark = cm.addLineClass(line, "background", "err-line");
+      cm.scrollIntoView({line, ch: 0}, 40);
+    }
+    if (r.error.test) c.append(el("div", "lbl call", "While running: " + r.error.test));
+    nodes.push(c);
+  }
+  appendCases(nodes, r.cases.map((t, i) => ({ok: t.ok, node: caseCard(t.ok, `Test ${i + 1}`, t.call || t.test, t)})));
+  if (r.mine.length) {
+    nodes.push(el("div", "group", `My tests: ${r.mine.filter(t => t.ok).length} of ${r.mine.length} passed`));
+    appendCases(nodes, r.mine.map((t, i) => ({ok: t.ok, node: caseCard(t.ok, `My test ${i + 1}`, t.code, t)})));
+  }
+  if (r.printed) {
+    const c = el("div", "case");
+    c.append(el("b", "", "Your print output"), el("pre", "printed", r.printed));
+    nodes.push(c);
+  }
+  out.replaceChildren(...nodes);
+  out.scrollTop = 0;
+}
+
+$("run").onclick = runTests;
+$("fontDown").onclick = () => changeFont(-1);
+$("fontUp").onclick = () => changeFont(1);
+$("addTest").onclick = () => {
+  myTests.push({code: current.example.code, expected: current.example.expected});
+  renderMyTests();
+  saveMyTests();
+  const fields = $("myTests").querySelectorAll("textarea");
+  fields[fields.length - 1].focus();
+};
+$("hintBtn").onclick = () => {
+  const box = $("hint");
+  box.hidden = !box.hidden;
+  $("hintBtn").textContent = box.hidden ? "Show hint" : "Hide hint";
+};
+$("answerBtn").onclick = async () => {
+  const a = await api("answer/" + current.slug);
+  $("answerCode").textContent = a.code.trim();
+  $("answer").hidden = false;
+  $("closeAnswer").focus();
+};
+const closeAnswer = () => { $("answer").hidden = true; $("answerBtn").focus(); };
+$("closeAnswer").onclick = closeAnswer;
+$("answer").onclick = e => { if (e.target === $("answer")) closeAnswer(); };
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && !$("answer").hidden) closeAnswer();
+  if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && current && !$("work").hidden) { e.preventDefault(); runTests(); }
+  if (e.key === "s" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); flush(); }
+});
+$("resetBtn").onclick = async () => {
+  if (!confirm("Reset this problem to blank?\n\nYour code is copied to the backups folder first, and Cmd+Z in the editor brings it back.")) return;
+  clearTimeout(saveTimer); saveTimer = null;
+  const r = await api("reset", {slug: current.slug});
+  clearErr();
+  loading = true;
+  cm.operation(() => cm.replaceRange(r.code, {line: 0, ch: 0}, {line: cm.lastLine(), ch: cm.getLine(cm.lastLine()).length}));
+  loading = false;
+  $("saved").textContent = "";
+  emptyOutput();
+  const entry = list.find(p => p.slug === current.slug);
+  if (entry) { entry.status = "todo"; drawPicker(current.slug); }
+};
+
+async function route() {
+  const token = ++routeToken;
+  await flush();
+  if (token !== routeToken) return;
+  const slug = location.hash.replace(/^#\/?/, "");
+  current = null;
+  try {
+    if (slug) await renderProblem(slug, token); else await renderHome(token);
+  } catch (e) {
+    if (token !== routeToken) return;
+    $("work").hidden = true;
+    $("home").hidden = false;
+    for (const id of ["prev", "next", "picker", "homeBtn", "timer"]) $(id).hidden = true;
+    const msg = el("p", "none", "Couldn't load this page. ");
+    const back = el("a", "", "Back to all problems");
+    back.href = "#/";
+    msg.append(back);
+    $("home").replaceChildren(msg);
+  }
+}
+window.addEventListener("hashchange", route);
+window.addEventListener("beforeunload", () => {
+  if (!current) return;
+  const send = (path, body) => fetch("/api/" + path, {
+    method: "POST", keepalive: true, headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)
+  });
+  if (saveTimer) send("save", {slug: current.slug, code: cm.getValue()});
+  if (testsTimer) send("my-tests", {slug: current.slug, tests: myTests});
+  if (notesTimer) send("progress", {slug: current.slug, notes: $("notes").value});
+});
+(async () => {
+  try {
+    const res = await fetch("/api/version");
+    const v = res.ok ? (await res.json()).version : 0;
+    if (v !== SERVER_VERSION) banner("This site was updated. Close the small window that opened with it, then double-click Start Practice.command to finish.");
+  } catch (e) {
+    banner(SERVER_DOWN);
+  }
+  route();
+})();
+</script>
+</body>
+</html>
